@@ -1,3 +1,3 @@
 package cmd
 
-var profile, name string
+var profile, name, id string
