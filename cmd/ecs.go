@@ -87,6 +87,7 @@ var ecsCmd = &cobra.Command{
 			}
 
 			var isFargate bool
+			var taskDifinitionName string
 
 			// 各タスクのインスタンスIDを表示
 			for _, task := range describeTasksOutput.Tasks {
@@ -103,17 +104,20 @@ var ecsCmd = &cobra.Command{
 						}
 
 						for _, instance := range describeContainerInstancesOutput.ContainerInstances {
-							fmt.Printf("LaunchType: EC2\nInstanceID: %s\n",*instance.Ec2InstanceId)
+							fmt.Printf("LaunchType: EC2 (%s) \n",*instance.Ec2InstanceId)
 						}
 					}
 				} else {
 					isFargate = true
 				}
+				taskDifinitionName = (*task.TaskDefinitionArn)[strings.LastIndex(*task.TaskDefinitionArn, "/")+1:]
 			}
 
 			if isFargate {
 				fmt.Println("LaunchType: FARGATE")
 			}
+
+			fmt.Printf("TaskDefinition: %s\n", taskDifinitionName)
 
 			fmt.Println("-----")
 		}
@@ -124,5 +128,5 @@ func init() {
 	rootCmd.AddCommand(ecsCmd)
 
 	ecsCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	ecsCmd.Flags().StringVarP(&name, "name", "n", "", "EC2 instance name")
+	ecsCmd.Flags().StringVarP(&name, "name", "n", "", "ECS cluster name")
 }
