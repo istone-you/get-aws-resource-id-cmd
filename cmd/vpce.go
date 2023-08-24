@@ -57,22 +57,25 @@ var vpceCmd = &cobra.Command{
 			return
 		}
 
-		fmt.Println("-----")
-
-		for _, endpoint := range resp.VpcEndpoints {
-			nameTagFound := false
-			for _, tag := range endpoint.Tags {
-				if *tag.Key == "Name" {
-					fmt.Printf("NameTag: %s\n", *tag.Value)
-					nameTagFound = true
-					break
-				}
-			}
-			if !nameTagFound {
-				fmt.Println("NameTag: -")
-			}
-			fmt.Println("EndpointID:", *endpoint.VpcEndpointId)
+		if len(resp.VpcEndpoints) == 0 {
+			fmt.Println("VPCエンドポイントはありません")
+		} else if len(resp.VpcEndpoints) > 0 {
 			fmt.Println("-----")
+			for _, endpoint := range resp.VpcEndpoints {
+				nameTagFound := false
+				for _, tag := range endpoint.Tags {
+					if *tag.Key == "Name" {
+						fmt.Printf("NameTag: %s\n", *tag.Value)
+						nameTagFound = true
+						break
+					}
+				}
+				if !nameTagFound {
+					fmt.Println("NameTag: -")
+				}
+				fmt.Println("EndpointID:", *endpoint.VpcEndpointId)
+				fmt.Println("-----")
+			}
 		}
 	},
 }

@@ -42,7 +42,6 @@ var eipCmd = &cobra.Command{
 
 		ec2Client := ec2.New(sess)
 
-		// DescribeAddressesリクエストの準備
 		input := &ec2.DescribeAddressesInput{
 			Filters: []*ec2.Filter{
 				{
@@ -52,28 +51,31 @@ var eipCmd = &cobra.Command{
 			},
 		}
 
-		// DescribeAddressesリクエストの実行
 		resp, err := ec2Client.DescribeAddresses(input)
 		if err != nil {
 			fmt.Println("Error describing addresses:", err)
-			return
 		}
 
-		// 結果の表示
-		for _, address := range resp.Addresses {
-			nameTagFound := false
-			for _, tag := range address.Tags {
-				if *tag.Key == "Name" {
-					fmt.Printf("NameTag: %s\n", *tag.Value)
-					nameTagFound = true
-					break
+		if len(resp.Addresses) == 0 {
+			fmt.Println("紐づいているElastic IPはありません。")
+		} else if len(resp.Addresses) > 0 {
+			fmt.Println("-----")
+			for _, address := range resp.Addresses {
+				nameTagFound := false
+				for _, tag := range address.Tags {
+					if *tag.Key == "Name" {
+						fmt.Printf("NameTag: %s\n", *tag.Value)
+						nameTagFound = true
+						break
+					}
 				}
+				if !nameTagFound {
+					fmt.Println("NameTag: -")
+				}
+				fmt.Println("ElasticIPAddress:", *address.PublicIp)
+				fmt.Println("ElasticIPAllocationID:", *address.AllocationId)
+				fmt.Println("-----")
 			}
-			if !nameTagFound {
-				fmt.Println("NameTag: -")
-			}
-			fmt.Println("ElasticIPAddress:", *address.PublicIp)
-			fmt.Println("ElasticIPAllocationID:", *address.AllocationId)
 		}
 	},
 }

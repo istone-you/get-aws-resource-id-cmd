@@ -57,22 +57,25 @@ var vgwCmd = &cobra.Command{
 			return
 		}
 
-		fmt.Println("-----")
-
-		for _, gw := range resp.VpnGateways {
-			nameTagFound := false
-			for _, tag := range gw.Tags {
-				if *tag.Key == "Name" {
-					fmt.Printf("NameTag: %s\n", *tag.Value)
-					nameTagFound = true
-					break
-				}
-			}
-			if !nameTagFound {
-				fmt.Println("NameTag: -")
-			}
-			fmt.Println("VPNGatewayID:", *gw.VpnGatewayId)
+		if len(resp.VpnGateways) == 0 {
+			fmt.Println("紐づいている仮想プライベートゲートウェイはありません。")
+		} else if len(resp.VpnGateways) > 0 {
 			fmt.Println("-----")
+			for _, gw := range resp.VpnGateways {
+				nameTagFound := false
+				for _, tag := range gw.Tags {
+					if *tag.Key == "Name" {
+						fmt.Printf("NameTag: %s\n", *tag.Value)
+						nameTagFound = true
+						break
+					}
+				}
+				if !nameTagFound {
+					fmt.Println("NameTag: -")
+				}
+				fmt.Println("VPNGatewayID:", *gw.VpnGatewayId)
+				fmt.Println("-----")
+			}
 		}
 	},
 }
