@@ -2,7 +2,7 @@ module get-aws-resource-id
 
 go 1.19
 
-require github.com/aws/aws-sdk-go v1.44.329
+require github.com/aws/aws-sdk-go v1.44.330
 
 require (
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
