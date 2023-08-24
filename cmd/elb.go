@@ -19,7 +19,7 @@ import (
 // elbCmd represents the elb command
 var elbCmd = &cobra.Command{
 	Use:   "elb",
-	Short: "Show ELB LoadBalancer Arn",
+	Short: "Show ELB LoadBalancer ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		reader := bufio.NewReader(os.Stdin)
 
@@ -54,7 +54,11 @@ var elbCmd = &cobra.Command{
 
 		if len(result.LoadBalancers) > 0 {
 			loadBalancerARN := *result.LoadBalancers[0].LoadBalancerArn
-			fmt.Println(loadBalancerARN)
+			if showArn {
+				fmt.Println(loadBalancerARN)
+			} else {
+				fmt.Println((loadBalancerARN)[strings.LastIndex(loadBalancerARN, "/")+1:])
+			}
 		} else {
 			fmt.Println("ロードバランサーが見つかりませんでした。")
 		}
@@ -66,4 +70,5 @@ func init() {
 
 	elbCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
 	elbCmd.Flags().StringVarP(&name, "name", "n", "", "Set ELB LoadBalancer name")
+	elbCmd.Flags().BoolVarP(&showArn, "arn", "a", false, "Show ELB LoadBalancer Arn")
 }

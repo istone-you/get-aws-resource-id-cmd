@@ -89,8 +89,11 @@ var listenerCmd = &cobra.Command{
 				for _, rule := range listener.DefaultActions {
 					if rule.TargetGroupArn != nil && *rule.TargetGroupArn == *tg.TargetGroupArn {
 						fmt.Println("TargetGroupName:", *tg.TargetGroupName)
-						fmt.Println("TargetGroupARN:", *tg.TargetGroupArn)
-						fmt.Println()
+						if showArn {
+							fmt.Println("TargetGroupARN:", *tg.TargetGroupArn)
+						} else {
+							fmt.Println("TargetGroupID:",(*tg.TargetGroupArn)[strings.LastIndex(*tg.TargetGroupArn, "/")+1:])
+						}
 					}
 				}
 			}
@@ -105,4 +108,5 @@ func init() {
 
 	listenerCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
 	listenerCmd.Flags().StringVarP(&name, "name", "n", "", "Set ELB LoadBalancer name")
+	listenerCmd.Flags().BoolVarP(&showArn, "arn", "a", false, "Show ELB Listener Arn")
 }
