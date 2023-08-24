@@ -28,7 +28,7 @@ var rdsCmd = &cobra.Command{
 		}
 
 		if name == "" {
-			fmt.Print("RDSのデータベース名を入力してください: ")
+			fmt.Print("データベース名を入力してください: ")
 			name, _ = reader.ReadString('\n')
 			name = strings.TrimSpace(name)
 		}
