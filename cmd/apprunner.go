@@ -19,7 +19,7 @@ import (
 // apprunnerCmd represents the apprunner command
 var apprunnerCmd = &cobra.Command{
 	Use:   "apprunner",
-	Short: "A brief description of your command",
+	Short: "Show App Runner Service ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		reader := bufio.NewReader(os.Stdin)
 
@@ -70,6 +70,6 @@ var apprunnerCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(apprunnerCmd)
 
-	apprunnerCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	apprunnerCmd.Flags().StringVarP(&name, "name", "n", "", "App Runner Service name")
+	apprunnerCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
+	apprunnerCmd.Flags().StringVarP(&name, "name", "n", "", "Set App Runner Service name")
 }

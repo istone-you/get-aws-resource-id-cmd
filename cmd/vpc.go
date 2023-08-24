@@ -19,7 +19,7 @@ import (
 // vpcCmd represents the vpc command
 var vpcCmd = &cobra.Command{
 	Use:   "vpc",
-	Short: "A brief description of your command",
+	Short: "Show VPC ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		if profile == "" {
 			profile = "default"
@@ -94,7 +94,7 @@ var vpcCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(vpcCmd)
 
-	vpcCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	vpcCmd.Flags().StringVarP(&name, "name", "n", "", "VPC name")
+	vpcCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
+	vpcCmd.Flags().StringVarP(&name, "name", "n", "", "Set VPC name")
 	vpcCmd.Flags().BoolVarP(&showList, "list", "l", false, "Show VPC List")
 }

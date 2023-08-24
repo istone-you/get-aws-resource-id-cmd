@@ -19,7 +19,7 @@ import (
 // ebsCmd represents the ebs command
 var ebsCmd = &cobra.Command{
 	Use:   "ebs",
-	Short: "A brief description of your command",
+	Short: "Show EBS Volume ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		reader := bufio.NewReader(os.Stdin)
 
@@ -68,6 +68,6 @@ var ebsCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(ebsCmd)
 
-	ebsCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	ebsCmd.Flags().StringVarP(&id, "id", "i", "", "EC2 Instance ID")
+	ebsCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
+	ebsCmd.Flags().StringVarP(&id, "id", "i", "", "Set EC2 Instance ID")
 }

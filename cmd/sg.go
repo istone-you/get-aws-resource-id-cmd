@@ -19,7 +19,7 @@ import (
 // sgCmd represents the sg command
 var sgCmd = &cobra.Command{
 	Use:   "sg",
-	Short: "A brief description of your command",
+	Short: "Show VPC Security Group ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		reader := bufio.NewReader(os.Stdin)
 
@@ -69,6 +69,6 @@ var sgCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(sgCmd)
 
-	sgCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	sgCmd.Flags().StringVarP(&id, "id", "i", "", "VPC ID")
+	sgCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
+	sgCmd.Flags().StringVarP(&id, "id", "i", "", "Set VPC ID")
 }

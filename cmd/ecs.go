@@ -19,7 +19,7 @@ import (
 // ecsCmd represents the ecs command
 var ecsCmd = &cobra.Command{
 	Use:   "ecs",
-	Short: "A brief description of your command",
+	Short: "Show ECS Container Instance ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		reader := bufio.NewReader(os.Stdin)
 
@@ -127,6 +127,6 @@ var ecsCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(ecsCmd)
 
-	ecsCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	ecsCmd.Flags().StringVarP(&name, "name", "n", "", "ECS cluster name")
+	ecsCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
+	ecsCmd.Flags().StringVarP(&name, "name", "n", "", "Set ECS cluster name")
 }

@@ -18,7 +18,7 @@ import (
 // instanceCmd represents the instance command
 var ec2Cmd = &cobra.Command{
 	Use:   "ec2",
-	Short: "EC2 Instance ID",
+	Short: "Show EC2 Instance ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		if profile == "" {
 			profile = "default"
@@ -113,7 +113,7 @@ var ec2Cmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(ec2Cmd)
 
-	ec2Cmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	ec2Cmd.Flags().StringVarP(&name, "name", "n", "", "EC2 instance name")
+	ec2Cmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
+	ec2Cmd.Flags().StringVarP(&name, "name", "n", "", "Set EC2 instance name")
 	ec2Cmd.Flags().BoolVarP(&showList, "list", "l", false, "Show EC2 instance List")
 }

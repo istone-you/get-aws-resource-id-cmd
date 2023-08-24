@@ -19,7 +19,7 @@ import (
 // efsCmd represents the efs command
 var efsCmd = &cobra.Command{
 	Use:   "efs",
-	Short: "A brief description of your command",
+	Short: "Show EFS File System ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		reader := bufio.NewReader(os.Stdin)
 
@@ -71,6 +71,6 @@ func getFileSystemID(efsClient *efs.EFS, fileSystemName string) (string, error) 
 func init() {
 	rootCmd.AddCommand(efsCmd)
 
-	efsCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	efsCmd.Flags().StringVarP(&name, "name", "n", "", "EFS FileSystem name")
+	efsCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
+	efsCmd.Flags().StringVarP(&name, "name", "n", "", "Set EFS FileSystem name")
 }

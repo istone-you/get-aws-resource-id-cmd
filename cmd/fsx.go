@@ -20,7 +20,7 @@ import (
 // fsxCmd represents the fsx command
 var fsxCmd = &cobra.Command{
 	Use:   "fsx",
-	Short: "A brief description of your command",
+	Short: "Show FSx File System ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		reader := bufio.NewReader(os.Stdin)
 
@@ -72,6 +72,6 @@ var fsxCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(fsxCmd)
 
-	fsxCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	fsxCmd.Flags().StringVarP(&name, "name", "n", "", "Fsx name")
+	fsxCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
+	fsxCmd.Flags().StringVarP(&name, "name", "n", "", "Set Fsx name")
 }

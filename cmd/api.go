@@ -19,7 +19,7 @@ import (
 // apiCmd represents the api command
 var apiCmd = &cobra.Command{
 	Use:   "api",
-	Short: "A brief description of your command",
+	Short: "Show API Gateway ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		reader := bufio.NewReader(os.Stdin)
 
@@ -73,6 +73,6 @@ func getApiGatewayID(svc *apigateway.APIGateway, apiGatewayName string) (string,
 func init() {
 	rootCmd.AddCommand(apiCmd)
 
-	apiCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	apiCmd.Flags().StringVarP(&name, "name", "n", "", "API Gateway name")
+	apiCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
+	apiCmd.Flags().StringVarP(&name, "name", "n", "", "Set API Gateway name")
 }

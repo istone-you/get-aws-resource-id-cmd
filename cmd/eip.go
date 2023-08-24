@@ -19,7 +19,7 @@ import (
 // eipCmd represents the eip command
 var eipCmd = &cobra.Command{
 	Use:   "eip",
-	Short: "A brief description of your command",
+	Short: "Show Elastic IP Allocation ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		reader := bufio.NewReader(os.Stdin)
 
@@ -83,6 +83,6 @@ var eipCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(eipCmd)
 
-	eipCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	eipCmd.Flags().StringVarP(&id, "id", "i", "", "EC2 Instance ID")
+	eipCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
+	eipCmd.Flags().StringVarP(&id, "id", "i", "", "Set EC2 Instance ID")
 }

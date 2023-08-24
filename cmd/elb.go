@@ -19,7 +19,7 @@ import (
 // elbCmd represents the elb command
 var elbCmd = &cobra.Command{
 	Use:   "elb",
-	Short: "A brief description of your command",
+	Short: "Show ELB LoadBalancer Arn",
 	Run: func(cmd *cobra.Command, args []string) {
 		reader := bufio.NewReader(os.Stdin)
 
@@ -64,6 +64,6 @@ var elbCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(elbCmd)
 
-	elbCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	elbCmd.Flags().StringVarP(&name, "name", "n", "", "ELB LoadBalancer name")
+	elbCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
+	elbCmd.Flags().StringVarP(&name, "name", "n", "", "Set ELB LoadBalancer name")
 }

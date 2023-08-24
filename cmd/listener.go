@@ -19,7 +19,7 @@ import (
 // listenerCmd represents the listener command
 var listenerCmd = &cobra.Command{
 	Use:   "listener",
-	Short: "A brief description of your command",
+	Short: "Show ELB Listener ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		reader := bufio.NewReader(os.Stdin)
 
@@ -103,6 +103,6 @@ var listenerCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(listenerCmd)
 
-	listenerCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	listenerCmd.Flags().StringVarP(&name, "name", "n", "", "ELB LoadBalancer name")
+	listenerCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
+	listenerCmd.Flags().StringVarP(&name, "name", "n", "", "Set ELB LoadBalancer name")
 }

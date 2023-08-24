@@ -18,7 +18,7 @@ import (
 // rtbCmd represents the rtb command
 var rtbCmd = &cobra.Command{
 	Use:   "rtb",
-	Short: "A brief description of your command",
+	Short: "Show VPC Route Table ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		reader := bufio.NewReader(os.Stdin)
 
@@ -73,6 +73,6 @@ var rtbCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(rtbCmd)
 
-	rtbCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	rtbCmd.Flags().StringVarP(&id, "id", "i", "", "Subnet ID")
+	rtbCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
+	rtbCmd.Flags().StringVarP(&id, "id", "i", "", "Set Subnet ID")
 }

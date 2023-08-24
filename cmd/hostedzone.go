@@ -17,7 +17,7 @@ import (
 
 var hostedzoneCmd = &cobra.Command{
 	Use:   "hostedzone",
-	Short: "Route53 Zone ID",
+	Short: "Show Route53 Hosted Zone ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		reader := bufio.NewReader(os.Stdin)
 
@@ -69,6 +69,6 @@ var hostedzoneCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(hostedzoneCmd)
 
-	hostedzoneCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	hostedzoneCmd.Flags().StringVarP(&name, "name", "n", "", "Route53 zone name")
+	hostedzoneCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
+	hostedzoneCmd.Flags().StringVarP(&name, "name", "n", "", "Set Route53 zone name")
 }

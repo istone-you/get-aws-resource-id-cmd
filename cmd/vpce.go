@@ -19,7 +19,7 @@ import (
 // vpceCmd represents the vpce command
 var vpceCmd = &cobra.Command{
 	Use:   "vpce",
-	Short: "A brief description of your command",
+	Short: "Show VPC Endpoint ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		reader := bufio.NewReader(os.Stdin)
 
@@ -83,6 +83,6 @@ var vpceCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(vpceCmd)
 
-	vpceCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	vpceCmd.Flags().StringVarP(&id, "id", "i", "", "VPC ID")
+	vpceCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
+	vpceCmd.Flags().StringVarP(&id, "id", "i", "", "Set VPC ID")
 }

@@ -19,7 +19,7 @@ import (
 // cognitoCmd represents the cognito command
 var cognitoCmd = &cobra.Command{
 	Use:   "cognito",
-	Short: "A brief description of your command",
+	Short: "Show Cognito Userpool ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		reader := bufio.NewReader(os.Stdin)
 
@@ -72,6 +72,6 @@ func getUserPoolID(cognitoClient *cognitoidentityprovider.CognitoIdentityProvide
 func init() {
 	rootCmd.AddCommand(cognitoCmd)
 
-	cognitoCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	cognitoCmd.Flags().StringVarP(&name, "name", "n", "", "Userpool name")
+	cognitoCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
+	cognitoCmd.Flags().StringVarP(&name, "name", "n", "", "Set Userpool name")
 }

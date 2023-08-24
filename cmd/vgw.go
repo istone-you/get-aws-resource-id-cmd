@@ -19,7 +19,7 @@ import (
 // vgwCmd represents the vgw command
 var vgwCmd = &cobra.Command{
 	Use:   "vgw",
-	Short: "A brief description of your command",
+	Short: "Show Virtual Private Gateway ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		reader := bufio.NewReader(os.Stdin)
 
@@ -83,6 +83,6 @@ var vgwCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(vgwCmd)
 
-	vgwCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	vgwCmd.Flags().StringVarP(&id, "id", "i", "", "VPC ID")
+	vgwCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
+	vgwCmd.Flags().StringVarP(&id, "id", "i", "", "Set VPC ID")
 }

@@ -17,7 +17,7 @@ import (
 // accountCmd represents the account command
 var accountCmd = &cobra.Command{
 	Use:   "account",
-	Short: "A brief description of your command",
+	Short: "Show AWS Account ID",
 	Run: func(cmd *cobra.Command, args []string) {
 			if profile == "" {
 				profile = "default"
@@ -46,5 +46,5 @@ var accountCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(accountCmd)
 
-	accountCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
+	accountCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
 }

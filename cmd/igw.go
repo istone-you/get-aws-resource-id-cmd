@@ -18,7 +18,7 @@ import (
 // igwCmd represents the igw command
 var igwCmd = &cobra.Command{
 	Use:   "igw",
-	Short: "A brief description of your command",
+	Short: "Show Internet Gateway ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		reader := bufio.NewReader(os.Stdin)
 
@@ -62,6 +62,6 @@ var igwCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(igwCmd)
 
-	igwCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	igwCmd.Flags().StringVarP(&id, "id", "i", "", "VPC ID")
+	igwCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
+	igwCmd.Flags().StringVarP(&id, "id", "i", "", "Set VPC ID")
 }

@@ -19,7 +19,7 @@ import (
 // kmsCmd represents the kms command
 var kmsCmd = &cobra.Command{
 	Use:   "kms",
-	Short: "A brief description of your command",
+	Short: "Show KMS Key ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		reader := bufio.NewReader(os.Stdin)
 
@@ -60,6 +60,6 @@ var kmsCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(kmsCmd)
 
-	kmsCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	kmsCmd.Flags().StringVarP(&name, "name", "n", "", "KMS name")
+	kmsCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
+	kmsCmd.Flags().StringVarP(&name, "name", "n", "", "Set KMS name")
 }

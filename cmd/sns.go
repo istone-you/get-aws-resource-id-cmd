@@ -20,7 +20,7 @@ import (
 // snsCmd represents the sns command
 var snsCmd = &cobra.Command{
 	Use:   "sns",
-	Short: "A brief description of your command",
+	Short: "Show SNS Subscription ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		reader := bufio.NewReader(os.Stdin)
 
@@ -84,6 +84,6 @@ func getSubscriptions(svc *sns.SNS, topicARN string) ([]*sns.Subscription, error
 func init() {
 	rootCmd.AddCommand(snsCmd)
 
-	snsCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	snsCmd.Flags().StringVarP(&name, "name", "n", "", "SNS Topic name")
+	snsCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
+	snsCmd.Flags().StringVarP(&name, "name", "n", "", "Set SNS Topic name")
 }

@@ -19,7 +19,7 @@ import (
 // rdsCmd represents the rds command
 var rdsCmd = &cobra.Command{
 	Use:   "rds",
-	Short: "A brief description of your command",
+	Short: "Show RDS DB Instance ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		reader := bufio.NewReader(os.Stdin)
 
@@ -66,6 +66,6 @@ var rdsCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(rdsCmd)
 
-	rdsCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	rdsCmd.Flags().StringVarP(&name, "name", "n", "", "RDS Database name")
+	rdsCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
+	rdsCmd.Flags().StringVarP(&name, "name", "n", "", "Set RDS Database name")
 }

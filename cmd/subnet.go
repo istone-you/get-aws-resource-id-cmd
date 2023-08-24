@@ -18,7 +18,7 @@ import (
 
 var subnetCmd = &cobra.Command{
 	Use:   "subnet",
-	Short: "A brief description of your command",
+	Short: "Show VPC Subnet ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		reader := bufio.NewReader(os.Stdin)
 
@@ -78,6 +78,6 @@ func getTagName(tags []*ec2.Tag, key string) string {
 func init() {
 	rootCmd.AddCommand(subnetCmd)
 
-	subnetCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	subnetCmd.Flags().StringVarP(&id, "id", "i", "", "VPC ID")
+	subnetCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
+	subnetCmd.Flags().StringVarP(&id, "id", "i", "", "Set VPC ID")
 }

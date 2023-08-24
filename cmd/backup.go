@@ -19,7 +19,7 @@ import (
 // backupCmd represents the backup command
 var backupCmd = &cobra.Command{
 	Use:   "backup",
-	Short: "A brief description of your command",
+	Short: "Show AWS Backup Plan ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		reader := bufio.NewReader(os.Stdin)
 
@@ -70,6 +70,6 @@ func getBackupPlanID(backupClient *backup.Backup, backupPlanName string) (string
 func init() {
 	rootCmd.AddCommand(backupCmd)
 
-	backupCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	backupCmd.Flags().StringVarP(&name, "name", "n", "", "Backup plan name")
+	backupCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
+	backupCmd.Flags().StringVarP(&name, "name", "n", "", "Set Backup plan name")
 }
