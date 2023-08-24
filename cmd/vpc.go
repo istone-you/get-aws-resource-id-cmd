@@ -21,16 +21,8 @@ var vpcCmd = &cobra.Command{
 	Use:   "vpc",
 	Short: "A brief description of your command",
 	Run: func(cmd *cobra.Command, args []string) {
-		reader := bufio.NewReader(os.Stdin)
-
 		if profile == "" {
 			profile = "default"
-		}
-
-		if name == "" {
-			fmt.Print("VPC名を入力してください: ")
-			name, _ = reader.ReadString('\n')
-			name = strings.TrimSpace(name)
 		}
 
 		sess := session.Must(session.NewSessionWithOptions(session.Options{
@@ -42,33 +34,59 @@ var vpcCmd = &cobra.Command{
 
 		ec2Client := ec2.New(sess)
 
-		// DescribeVpcsリクエストの作成
-		describeVpcsInput := &ec2.DescribeVpcsInput{
-			Filters: []*ec2.Filter{
-				{
-					Name: aws.String("tag:Name"),
-					Values: []*string{
-						aws.String(name),
+		if showList == false {
+			reader := bufio.NewReader(os.Stdin)
+
+			if name == "" {
+				fmt.Print("VPC名を入力してください: ")
+				name, _ = reader.ReadString('\n')
+				name = strings.TrimSpace(name)
+			}
+
+			describeVpcsInput := &ec2.DescribeVpcsInput{
+				Filters: []*ec2.Filter{
+					{
+						Name: aws.String("tag:Name"),
+						Values: []*string{
+							aws.String(name),
+						},
 					},
 				},
-			},
-		}
+			}
 
-		// VPCの検索
-		describeVpcsOutput, err := ec2Client.DescribeVpcs(describeVpcsInput)
-		if err != nil {
-			fmt.Println("データの取得に失敗しました:", err)
-			os.Exit(1)
-		}
+			describeVpcsOutput, err := ec2Client.DescribeVpcs(describeVpcsInput)
+			if err != nil {
+				fmt.Println("データの取得に失敗しました:", err)
+				os.Exit(1)
+			}
 
-		// VPCが見つかった場合、そのIDを表示
-		if len(describeVpcsOutput.Vpcs) > 0 {
-			for _, vpc := range describeVpcsOutput.Vpcs {
-				vpcID := aws.StringValue(vpc.VpcId)
-				fmt.Println(vpcID)
+			if len(describeVpcsOutput.Vpcs) > 0 {
+				for _, vpc := range describeVpcsOutput.Vpcs {
+					vpcID := aws.StringValue(vpc.VpcId)
+					fmt.Println(vpcID)
+				}
+			} else {
+				fmt.Println("指定した名前のVPCが見つかりませんでした。")
 			}
 		} else {
-			fmt.Println("指定した名前のVPCが見つかりませんでした。")
+			input := &ec2.DescribeVpcsInput{}
+
+			result, err := ec2Client.DescribeVpcs(input)
+			if err != nil {
+				fmt.Println("データの取得に失敗しました:", err)
+				return
+			}
+
+			for _, vpc := range result.Vpcs {
+				nameTag := "-"
+				for _, tag := range vpc.Tags {
+					if *tag.Key == "Name" {
+						nameTag = *tag.Value
+						break
+					}
+				}
+				fmt.Printf("- VPCID: %s, CIDRBlock: %s, NameTag: %s\n", *vpc.VpcId, *vpc.CidrBlock, nameTag)
+			}
 		}
 	},
 }
@@ -78,4 +96,5 @@ func init() {
 
 	vpcCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
 	vpcCmd.Flags().StringVarP(&name, "name", "n", "", "VPC name")
+	vpcCmd.Flags().BoolVarP(&showList, "list", "l", false, "Show VPC List")
 }

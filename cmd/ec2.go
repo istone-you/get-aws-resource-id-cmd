@@ -20,16 +20,8 @@ var ec2Cmd = &cobra.Command{
 	Use:   "ec2",
 	Short: "EC2 Instance ID",
 	Run: func(cmd *cobra.Command, args []string) {
-		reader := bufio.NewReader(os.Stdin)
-
 		if profile == "" {
 			profile = "default"
-		}
-
-		if name == "" {
-			fmt.Print("インスタンス名を入力してください: ")
-			name, _ = reader.ReadString('\n')
-			name = strings.TrimSpace(name)
 		}
 
 		sess := session.Must(session.NewSessionWithOptions(session.Options{
@@ -41,38 +33,78 @@ var ec2Cmd = &cobra.Command{
 
 		ec2Client := ec2.New(sess)
 
-		input := &ec2.DescribeInstancesInput{
-			Filters: []*ec2.Filter{
-				{
-					Name: aws.String("tag:Name"),
-					Values: []*string{
-						aws.String(name),
+		if showList == false {
+			reader := bufio.NewReader(os.Stdin)
+
+			if name == "" {
+				fmt.Print("インスタンス名を入力してください: ")
+				name, _ = reader.ReadString('\n')
+				name = strings.TrimSpace(name)
+			}
+
+			input := &ec2.DescribeInstancesInput{
+				Filters: []*ec2.Filter{
+					{
+						Name: aws.String("tag:Name"),
+						Values: []*string{
+							aws.String(name),
+						},
+					},
+					{
+						Name: aws.String("instance-state-name"),
+						Values: []*string{
+							aws.String("running"),
+						},
 					},
 				},
-				{
-					Name: aws.String("instance-state-name"),
-					Values: []*string{
-						aws.String("running"),
+			}
+
+			result, err := ec2Client.DescribeInstances(input)
+			if err != nil {
+				fmt.Println("データの取得に失敗しました:", err)
+				return
+			}
+
+			if len(result.Reservations) == 0 || len(result.Reservations[0].Instances) == 0 {
+				fmt.Println("指定した名前のインスタンスが見つかりませんでした。")
+				return
+			}
+
+			for _, reservation := range result.Reservations {
+				for _, instance := range reservation.Instances {
+					instanceID := aws.StringValue(instance.InstanceId)
+					fmt.Println(instanceID)
+				}
+			}
+		} else {
+			input := &ec2.DescribeInstancesInput{
+				Filters: []*ec2.Filter{
+					{
+						Name: aws.String("instance-state-name"),
+						Values: []*string{
+							aws.String("running"),
+						},
 					},
 				},
-			},
-		}
+			}
 
-		result, err := ec2Client.DescribeInstances(input)
-		if err != nil {
-			fmt.Println("データの取得に失敗しました:", err)
-			return
-		}
+			result, err := ec2Client.DescribeInstances(input)
+			if err != nil {
+				fmt.Println("データの取得に失敗しました:", err)
+				return
+			}
 
-		if len(result.Reservations) == 0 || len(result.Reservations[0].Instances) == 0 {
-			fmt.Println("指定した名前のインスタンスが見つかりませんでした。")
-			return
-		}
-
-		for _, reservation := range result.Reservations {
-			for _, instance := range reservation.Instances {
-				instanceID := aws.StringValue(instance.InstanceId)
-				fmt.Println(instanceID)
+			for _, reservation := range result.Reservations {
+				for _, instance := range reservation.Instances {
+				nameTag := "-"
+				for _, tag := range instance.Tags {
+					if *tag.Key == "Name" {
+						nameTag = *tag.Value
+						break
+					}
+				}
+				fmt.Printf("- InstanceID: %s, InstanceType: %s, NameTag: %s\n", *instance.InstanceId, *instance.InstanceType, nameTag)
+				}
 			}
 		}
 	},
@@ -83,4 +115,5 @@ func init() {
 
 	ec2Cmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
 	ec2Cmd.Flags().StringVarP(&name, "name", "n", "", "EC2 instance name")
+	ec2Cmd.Flags().BoolVarP(&showList, "list", "l", false, "Show EC2 instance List")
 }
