@@ -73,5 +73,5 @@ func init() {
 	rootCmd.AddCommand(fsxCmd)
 
 	fsxCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	fsxCmd.Flags().StringVarP(&name, "name", "n", "", "KMS name")
+	fsxCmd.Flags().StringVarP(&name, "name", "n", "", "Fsx name")
 }

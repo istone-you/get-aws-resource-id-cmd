@@ -16,9 +16,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// vpcsubnetCmd represents the vpcsubnet command
-var vpcsubnetCmd = &cobra.Command{
-	Use:   "vpcsubnet",
+var subnetCmd = &cobra.Command{
+	Use:   "subnet",
 	Short: "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
@@ -83,8 +82,8 @@ func getTagName(tags []*ec2.Tag, key string) string {
 }
 
 func init() {
-	rootCmd.AddCommand(vpcsubnetCmd)
+	rootCmd.AddCommand(subnetCmd)
 
-	vpcsubnetCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	vpcsubnetCmd.Flags().StringVarP(&id, "id", "i", "", "VPC ID")
+	subnetCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
+	subnetCmd.Flags().StringVarP(&id, "id", "i", "", "VPC ID")
 }

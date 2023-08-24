@@ -3,7 +3,7 @@ module get-aws-resource-id
 go 1.19
 
 require (
-	github.com/aws/aws-sdk-go v1.44.329
+	github.com/aws/aws-sdk-go v1.44.330
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.16.0
 )

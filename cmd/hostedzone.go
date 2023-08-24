@@ -15,8 +15,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var route53zoneCmd = &cobra.Command{
-	Use:   "route53zone",
+var hostedzoneCmd = &cobra.Command{
+	Use:   "hostedzone",
 	Short: "Route53 Zone ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		reader := bufio.NewReader(os.Stdin)
@@ -26,7 +26,7 @@ var route53zoneCmd = &cobra.Command{
 		}
 
 		if name == "" {
-			fmt.Print("Route53のホストゾーン名を入力してください: ")
+			fmt.Print("ホストゾーン名を入力してください: ")
 			name, _ = reader.ReadString('\n')
 			name = strings.TrimSpace(name)
 		}
@@ -67,8 +67,8 @@ var route53zoneCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(route53zoneCmd)
+	rootCmd.AddCommand(hostedzoneCmd)
 
-	route53zoneCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	route53zoneCmd.Flags().StringVarP(&name, "name", "n", "", "Route53 zone name")
+	hostedzoneCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
+	hostedzoneCmd.Flags().StringVarP(&name, "name", "n", "", "Route53 zone name")
 }
