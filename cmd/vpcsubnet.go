@@ -59,7 +59,7 @@ to quickly create a Cobra application.`,
 
 		result, err := ec2Client.DescribeSubnets(input)
 		if err != nil {
-			fmt.Println("Error describing subnets:", err)
+			fmt.Println("データの取得に失敗しました:", err)
 			return
 		}
 
