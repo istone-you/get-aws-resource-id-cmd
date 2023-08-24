@@ -104,5 +104,5 @@ func init() {
 	rootCmd.AddCommand(listenerCmd)
 
 	listenerCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	listenerCmd.Flags().StringVarP(&name, "name", "n", "", "ELB instance name")
+	listenerCmd.Flags().StringVarP(&name, "name", "n", "", "ELB LoadBalancer name")
 }

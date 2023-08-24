@@ -19,28 +19,27 @@ var accountCmd = &cobra.Command{
 	Use:   "account",
 	Short: "A brief description of your command",
 	Run: func(cmd *cobra.Command, args []string) {
+			if profile == "" {
+				profile = "default"
+			}
 
-		if profile == "" {
-			profile = "default"
-		}
+			sess := session.Must(session.NewSessionWithOptions(session.Options{
+				Profile: profile,
+				Config: aws.Config{
+					Region: aws.String("ap-northeast-1"),
+				},
+			}))
 
-		sess := session.Must(session.NewSessionWithOptions(session.Options{
-			Profile: profile,
-			Config: aws.Config{
-				Region: aws.String("ap-northeast-1"),
-			},
-		}))
+			stsClient := sts.New(sess)
 
-		stsClient := sts.New(sess)
+			result, err := stsClient.GetCallerIdentity(&sts.GetCallerIdentityInput{})
+			if err != nil {
+				fmt.Println("データの取得に失敗しました:", err)
+				os.Exit(1)
+			}
 
-		result, err := stsClient.GetCallerIdentity(&sts.GetCallerIdentityInput{})
-		if err != nil {
-			fmt.Println("データの取得に失敗しました:", err)
-			os.Exit(1)
-		}
-
-		// アカウントIDを表示
-		fmt.Println(*result.Account)
+			// アカウントIDを表示
+			fmt.Println(*result.Account)
 		},
 }
 
