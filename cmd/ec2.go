@@ -18,8 +18,8 @@ import (
 
 
 // instanceCmd represents the instance command
-var instanceCmd = &cobra.Command{
-	Use:   "instance",
+var ec2Cmd = &cobra.Command{
+	Use:   "ec2",
 	Short: "EC2 Instance ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		reader := bufio.NewReader(os.Stdin)
@@ -81,8 +81,8 @@ var instanceCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(instanceCmd)
+	rootCmd.AddCommand(ec2Cmd)
 
-	instanceCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	instanceCmd.Flags().StringVarP(&name, "name", "n", "", "EC2 instance name")
+	ec2Cmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
+	ec2Cmd.Flags().StringVarP(&name, "name", "n", "", "EC2 instance name")
 }
