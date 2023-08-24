@@ -15,8 +15,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-
-
 // instanceCmd represents the instance command
 var ec2Cmd = &cobra.Command{
 	Use:   "ec2",
