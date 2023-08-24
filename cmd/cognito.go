@@ -73,5 +73,5 @@ func init() {
 	rootCmd.AddCommand(cognitoCmd)
 
 	cognitoCmd.Flags().StringVarP(&profile, "profile", "p", "", "AWS CLI's profile name")
-	cognitoCmd.Flags().StringVarP(&name, "name", "n", "", "Fsx name")
+	cognitoCmd.Flags().StringVarP(&name, "name", "n", "", "Userpool name")
 }
