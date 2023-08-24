@@ -60,9 +60,12 @@ var snsCmd = &cobra.Command{
 			return
 		}
 
+		fmt.Println("-----")
 		for _, sub := range subscriptions {
-
-			fmt.Println((*sub.SubscriptionArn)[strings.LastIndex(*sub.SubscriptionArn, ":")+1:])
+			fmt.Printf("SubscriptionID: %s\n", (*sub.SubscriptionArn)[strings.LastIndex(*sub.SubscriptionArn, ":")+1:])
+			fmt.Printf("Protocol: %s\n", *sub.Protocol)
+			fmt.Printf("Endpoint: %s\n", *sub.Endpoint)
+			fmt.Println("-----")
 		}
 	},
 }
