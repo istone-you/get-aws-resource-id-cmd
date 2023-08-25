@@ -42,25 +42,75 @@ var elbCmd = &cobra.Command{
 
 		elbClient := elbv2.New(sess)
 
-		input := &elbv2.DescribeLoadBalancersInput{
+		loadBalancerInput := &elbv2.DescribeLoadBalancersInput{
 			Names: []*string{&name},
 		}
 
-		result, err := elbClient.DescribeLoadBalancers(input)
+		loadBalancerResult, err := elbClient.DescribeLoadBalancers(loadBalancerInput)
 		if err != nil {
 			fmt.Println("データの取得に失敗しました:", err)
 			os.Exit(1)
 		}
 
-		if len(result.LoadBalancers) > 0 {
-			loadBalancerARN := *result.LoadBalancers[0].LoadBalancerArn
-			if showArn {
-				fmt.Println(loadBalancerARN)
-			} else {
-				fmt.Println((loadBalancerARN)[strings.LastIndex(loadBalancerARN, "/")+1:])
-			}
+		if len(loadBalancerResult.LoadBalancers) == 0 {
+			fmt.Println("ロードバランサーが見つかりません。")
+			os.Exit(1)
+		}
+
+		loadBalancerARN := *loadBalancerResult.LoadBalancers[0].LoadBalancerArn
+
+		fmt.Println()
+		if showArn {
+			fmt.Println("LoadBalancerArn:", loadBalancerARN)
 		} else {
-			fmt.Println("ロードバランサーが見つかりませんでした。")
+			fmt.Println("LoadBalancerID:", (loadBalancerARN)[strings.LastIndex(loadBalancerARN, "/")+1:])
+		}
+		fmt.Println()
+
+		listenersInput := &elbv2.DescribeListenersInput{
+			LoadBalancerArn: &loadBalancerARN,
+		}
+
+		listenersResult, err := elbClient.DescribeListeners(listenersInput)
+		if err != nil {
+			fmt.Println("データの取得に失敗しました:", err)
+			os.Exit(1)
+		}
+
+		fmt.Println("-----")
+		for _, listener := range listenersResult.Listeners {
+			fmt.Println("Port:", *listener.Port)
+			fmt.Println("Protocol:", *listener.Protocol)
+			if showArn {
+				fmt.Println("ListenerArn:", *listener.ListenerArn)
+			} else {
+				fmt.Println("ListenerID:",(*listener.ListenerArn)[strings.LastIndex(*listener.ListenerArn, "/")+1:])
+			}
+
+			targetGroupsInput := &elbv2.DescribeTargetGroupsInput{
+				LoadBalancerArn: &loadBalancerARN,
+			}
+
+			targetGroupsResult, err := elbClient.DescribeTargetGroups(targetGroupsInput)
+			if err != nil {
+				fmt.Println("データの取得に失敗しました:", err)
+				os.Exit(1)
+			}
+
+			for _, tg := range targetGroupsResult.TargetGroups {
+				for _, rule := range listener.DefaultActions {
+					if rule.TargetGroupArn != nil && *rule.TargetGroupArn == *tg.TargetGroupArn {
+						fmt.Println("TargetGroupName:", *tg.TargetGroupName)
+						if showArn {
+							fmt.Println("TargetGroupArn:", *tg.TargetGroupArn)
+						} else {
+							fmt.Println("TargetGroupID:",(*tg.TargetGroupArn)[strings.LastIndex(*tg.TargetGroupArn, "/")+1:])
+						}
+					}
+				}
+			}
+
+			fmt.Println("-----")
 		}
 	},
 }

@@ -55,8 +55,9 @@ var snsCmd = &cobra.Command{
 		topicArn := fmt.Sprintf("arn:aws:sns:ap-northeast-1:%s:%s", accountId, name)
 
 		if showArn {
-			fmt.Println("-----")
+			fmt.Println()
 			fmt.Printf("TopicArn: %s\n", topicArn)
+			fmt.Println()
 		}
 
 		subscriptions, err := getSubscriptions(snsClient, topicArn)
