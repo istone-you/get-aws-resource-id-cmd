@@ -54,6 +54,11 @@ var snsCmd = &cobra.Command{
 
 		topicArn := fmt.Sprintf("arn:aws:sns:ap-northeast-1:%s:%s", accountId, name)
 
+		if showArn {
+			fmt.Println("-----")
+			fmt.Printf("TopicArn: %s\n", topicArn)
+		}
+
 		subscriptions, err := getSubscriptions(snsClient, topicArn)
 		if err != nil {
 			fmt.Println("サブスクリプションの取得に失敗しました:", err)
@@ -62,7 +67,11 @@ var snsCmd = &cobra.Command{
 
 		fmt.Println("-----")
 		for _, sub := range subscriptions {
-			fmt.Printf("SubscriptionID: %s\n", (*sub.SubscriptionArn)[strings.LastIndex(*sub.SubscriptionArn, ":")+1:])
+			if showArn {
+				fmt.Printf("SubscriptionArn: %s\n", *sub.SubscriptionArn)
+			} else {
+				fmt.Printf("SubscriptionID: %s\n", (*sub.SubscriptionArn)[strings.LastIndex(*sub.SubscriptionArn, ":")+1:])
+			}
 			fmt.Printf("Protocol: %s\n", *sub.Protocol)
 			fmt.Printf("Endpoint: %s\n", *sub.Endpoint)
 			fmt.Println("-----")
@@ -86,4 +95,5 @@ func init() {
 
 	snsCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
 	snsCmd.Flags().StringVarP(&name, "name", "n", "", "Set SNS Topic name")
+	snsCmd.Flags().BoolVarP(&showArn, "arn", "a", false, "Show SNS Topic & Subscription Arn")
 }
