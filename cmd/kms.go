@@ -53,7 +53,11 @@ var kmsCmd = &cobra.Command{
 			return
 		}
 
-		fmt.Println(*describeOutput.KeyMetadata.KeyId)
+		if showArn {
+			fmt.Println(*describeOutput.KeyMetadata.Arn)
+		} else {
+			fmt.Println(*describeOutput.KeyMetadata.KeyId)
+		}
 	},
 }
 
@@ -62,4 +66,5 @@ func init() {
 
 	kmsCmd.Flags().StringVarP(&profile, "profile", "p", "", "Set AWS CLI's profile name")
 	kmsCmd.Flags().StringVarP(&name, "name", "n", "", "Set KMS name")
+	kmsCmd.Flags().BoolVarP(&showArn, "arn", "a", false, "Show KMS Arn")
 }
